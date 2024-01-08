@@ -15,8 +15,8 @@ public class Note {
 
     //public String category;
 
-    
 
+//
 
 
     public Note(String title, String description) {
