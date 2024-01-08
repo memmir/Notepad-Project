@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Notepad</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="enter_note_title">Enter Note Title</string>
+    <string name="enter_note">Enter Note</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="developer">Developer</string>
+    <string name="list_developer">List of Developer</string>
+    <string name="ceng_403_mobile_application_development_final">CENG 403: Mobile Application Development Final Project</string>
+    <string name="notepad_application">Notepad Application</string>
+    <string-array name="developer">
+        <item>Mahmut Emir Kılınç</item>
+
+    </string-array>
+</resources>
