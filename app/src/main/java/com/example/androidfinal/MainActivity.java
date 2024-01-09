@@ -24,8 +24,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
-
-
+import com.facebook.stetho.Stetho;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -49,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_main);
 
+        Stetho.initializeWithDefaults(this);
 
 
         // RecyclerView'a adapter'ı set et
