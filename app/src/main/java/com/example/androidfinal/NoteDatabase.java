@@ -53,10 +53,10 @@ public abstract class NoteDatabase extends RoomDatabase {
         protected Void doInBackground(Void... voids) {
 
             noteDao.Insert(new Note("Title 1", "Description 1","Category1"));
-            noteDao.Insert(new Note("Title 1", "Description 1","Category2"));
-            noteDao.Insert(new Note("Title 1", "Description 1","Category3"));
-            noteDao.Insert(new Note("Title 1", "Description 1","Category4"));
-            noteDao.Insert(new Note("Title 1", "Description 1","Category5"));
+            noteDao.Insert(new Note("Title 2", "Description 2","Category2"));
+            noteDao.Insert(new Note("Title 3", "Description 3","Category3"));
+            noteDao.Insert(new Note("Title 4", "Description 4","Category4"));
+            noteDao.Insert(new Note("Title 5", "Description 5","Category5"));
 
             return null;
         }

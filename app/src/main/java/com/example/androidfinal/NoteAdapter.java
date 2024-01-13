@@ -171,13 +171,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
         String category = currentNote.getCategory();
         if (category != null) {
             switch (category) {
-                case "İş":
+                case "Work":
                     holder.textViewTitle.setTextColor(Color.RED);
                     break;
-                case "Okul":
+                case "School":
                     holder.textViewTitle.setTextColor(Color.GREEN);
                     break;
-                case "Spor":
+                case "Sport":
                     holder.textViewTitle.setTextColor(Color.BLUE);
                     break;
                 default:

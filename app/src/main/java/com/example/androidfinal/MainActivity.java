@@ -202,13 +202,13 @@ public class MainActivity extends AppCompatActivity {
             String category = note.getCategory();
             if (category != null) {
                 switch (category) {
-                    case "İş":
+                    case "Work":
                         note.setColor(Color.RED);
                         break;
-                    case "Okul":
+                    case "School":
                         note.setColor(Color.GREEN);
                         break;
-                    case "Spor":
+                    case "Sport":
                         note.setColor(Color.BLUE);
                         break;
                     default:
