@@ -2,6 +2,8 @@ package com.example.androidfinal;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,7 +22,9 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 
@@ -36,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton developer;
 
     private NoteAdapter adapter;
+
+    private Spinner categorySpinner;
+    private ArrayAdapter<CharSequence> spinnerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +80,22 @@ public class MainActivity extends AppCompatActivity {
         noteViewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication())
                 .create(NoteViewModel.class);
 
-        noteViewModel.getAllNotes().observe(this, (List<Note> notes) -> {
+        /*noteViewModel.getAllNotes().observe(this, (List<Note> notes) -> {
             // update Recycler View
             adapter.setNotes(notes);
+            updateNotesWithCategoryColor(notes);
+        });*/
+        /*noteViewModel.getAllNotes().observeForever(notes -> {
+            if (notes != null) {
+                adapter.setNotes(notes);
+                updateNotesWithCategoryColor(notes);
+            }
+        });*/
+        noteViewModel.getAllNotes().observe(this, notes -> {
+            if (notes != null) {
+                updateNotesWithCategoryColor(notes);
+                adapter.setNotes(notes);
+            }
         });
 
         new ItemTouchHelper(new ItemTouchHelper
@@ -92,13 +112,33 @@ public class MainActivity extends AppCompatActivity {
             }
         }).attachToRecyclerView(recyclerView);
 
-        adapter.setOnItemClickListener((Note note) -> {
+        adapter.setOnItemClickListener(new NoteAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Note note) {
+                Intent intent = new Intent(MainActivity.this, UpdateActivity.class);
+                intent.putExtra("id", note.getId());
+                intent.putExtra("title", note.getTitle());
+                intent.putExtra("description", note.getDescription());
+                startActivityForResult(intent, 2);
+            }
+
+            @Override
+            public void onDeleteClick(Note note) {
+                // Silme işlemi
+                noteViewModel.delete(note);
+                Toast.makeText(getApplicationContext(), "Deleted note", Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+
+        /*adapter.setOnItemClickListener((Note note) -> {
             Intent intent = new Intent(MainActivity.this, UpdateActivity.class);
             intent.putExtra("id", note.getId());
             intent.putExtra("title", note.getTitle());
             intent.putExtra("description", note.getDescription());
             startActivityForResult(intent, 2);
-        });
+        });*/
 
         EditText editTextSearch = findViewById(R.id.editTextSearch);
 
@@ -115,6 +155,74 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {}
         });
+    }
+
+
+    private void showAddNoteDialog() {
+        // Kategori seçimi için Spinner'ı ve not eklemek için diğer kontrolleri içeren bir dialog göster
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        final View dialogView = getLayoutInflater().inflate(R.layout.activity_add_note, null);
+        dialogBuilder.setView(dialogView);
+
+        final EditText editTextTitle = dialogView.findViewById(R.id.editTextTitle);
+        final EditText editTextDescription = dialogView.findViewById(R.id.editTextDescription);
+
+        // Bu satırı ekleyin: categorySpinner'ı bulun
+        categorySpinner = dialogView.findViewById(R.id.spinnerCategory);
+
+        // CategorySpinner için adapter'ı ve diğer ayarları yapın (örneğin, spinnerAdapter'ı oluşturun ve set edin)
+
+        dialogBuilder.setTitle("Add Note");
+        dialogBuilder.setPositiveButton("Add", (dialog, whichButton) -> {
+            // Kategori seçimini al
+            String selectedCategory = categorySpinner.getSelectedItem().toString();
+
+            // EditText'lerden not bilgilerini al
+            String title = editTextTitle.getText().toString().trim();
+            String description = editTextDescription.getText().toString().trim();
+
+            // Not objesini oluştur
+            Note note = new Note(title, description, selectedCategory);
+
+            // Notu ViewModel aracılığıyla ekleyin
+            noteViewModel.insert(note);
+
+            Toast.makeText(getApplicationContext(), "Note added", Toast.LENGTH_LONG).show();
+        });
+
+        dialogBuilder.setNegativeButton("Cancel", (dialog, whichButton) -> {
+            // İptal edildiğinde yapılacak işlemler (isteğe bağlı)
+        });
+
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
+    private void updateNotesWithCategoryColor(List<Note> notes) {
+        for (Note note : notes) {
+            String category = note.getCategory();
+            if (category != null) {
+                switch (category) {
+                    case "İş":
+                        note.setColor(Color.RED);
+                        break;
+                    case "Okul":
+                        note.setColor(Color.GREEN);
+                        break;
+                    case "Spor":
+                        note.setColor(Color.BLUE);
+                        break;
+                    default:
+                        // Diğer durumlar için bir renk ayarı yapabilirsiniz
+                        note.setColor(Color.WHITE);
+                        break;
+                }
+            } else {
+                // Kategori null ise, bir varsayılan renk ataması yapabilirsiniz
+                note.setColor(Color.WHITE);
+            }
+        }
+
+        adapter.setNotes(notes);
     }
     private void filterNotes(String searchText) {
 
@@ -152,6 +260,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.top_menu:
+                showAddNoteDialog();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    /*@Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
 
         switch (item.getItemId())
@@ -163,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -173,8 +291,9 @@ public class MainActivity extends AppCompatActivity {
         {
             String title = data.getStringExtra("noteTitle");
             String description = data.getStringExtra("noteDescription");
+            String category = data.getStringExtra("noteCategory"); // Kategori bilgisini aldık
 
-            Note note = new Note(title, description);
+            Note note = new Note(title, description, category);
             noteViewModel.insert(note);
         }
         else if (requestCode == 2 && resultCode == RESULT_OK)
@@ -182,8 +301,9 @@ public class MainActivity extends AppCompatActivity {
             int id = data.getIntExtra("noteId", -1);
             String title = data.getStringExtra("titleLast");
             String description = data.getStringExtra("descriptionLast");
+            String category = data.getStringExtra("categoryLast");
 
-            Note note = new Note(title, description);
+            Note note = new Note(title, description,category);
             note.setId(id);
             noteViewModel.update(note);
         }

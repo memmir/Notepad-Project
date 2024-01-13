@@ -8,6 +8,17 @@
     android:orientation="vertical"
     tools:context=".AddNoteActivity">
 
+    <!-- Kategori seçimi için Spinner -->
+    <Spinner
+        android:id="@+id/spinnerCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/teal_700"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:entries="@array/categories_array" />
+
     <EditText
         android:id="@+id/editTextTitle"
         android:layout_width="match_parent"
@@ -62,3 +73,4 @@
             tools:ignore="TextContrastCheck" />
     </LinearLayout>
 </LinearLayout>
+

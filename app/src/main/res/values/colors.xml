@@ -7,4 +7,7 @@
     <color name="teal_700">#65B607</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="colorCategoryWork">#E60606</color>
+    <color name="colorCategorySchool">#0AE10D</color>
+    <color name="colorCategorySport">#FF3700B3</color>
 </resources>

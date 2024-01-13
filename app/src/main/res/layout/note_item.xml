@@ -30,13 +30,58 @@
     </LinearLayout>
 </androidx.cardview.widget.CardView>-->
 
+<!-- en son çalışan kodlar -->
 <!-- note_item.xml -->
+<!--<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/title"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textViewDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="16dp"
+        android:text="@string/description"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <ImageButton
+        android:id="@+id/imageButtonDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_delete_24"
+        android:contentDescription="Delete Note" />
+</LinearLayout>-->
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="16dp">
+
+    <!-- Kategori Bilgisini Gösteren TextView -->
+    <TextView
+        android:id="@+id/textViewCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="18sp"
+        android:textColor="@color/colorCategoryWork" />
+
 
     <TextView
         android:id="@+id/textViewTitle"

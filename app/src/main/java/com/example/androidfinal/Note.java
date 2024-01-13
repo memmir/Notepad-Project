@@ -13,15 +13,35 @@ public class Note {
     public String title;
     public String description;
 
-    //public String category;
+    private int color;
+    public String category;
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
 
 //
 
 
-    public Note(String title, String description) {
+    public Note(String title, String description, String category) {
         this.title = title;
         this.description = description;
+        this.category = category;
     }
 
     public int getId() {
